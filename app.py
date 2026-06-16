@@ -736,7 +736,7 @@ def render_footer():
             所有推荐展品均来源于该数字展览，点击访问完整展览内容
         </div>
         <a class="view-original-link" href="{config.EXHIBITION_URL}" target="_blank" rel="noopener"
-           style="display: inline-block; padding: 0.6rem 2rem; background: var(--ink-night); color: var(--parchment) !important; font-size: 0.95rem;">
+           style="display: inline-block; padding: 0.6rem 2rem; background: var(--ink-night); color: #FFFFFF !important; font-size: 0.95rem; text-decoration: none; border-radius: 2px;">
             🏛 访问完整数字展览
         </a>
     </div>
