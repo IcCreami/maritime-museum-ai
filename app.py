@@ -217,9 +217,13 @@ def inject_css():
 
     /* ============ 主按钮 ============ */
     .stButton > button[kind="primary"],
-    .stButton > button[data-testid="baseButton-primary"] {
+    .stButton > button[data-testid="baseButton-primary"],
+    .stButton > button[kind="primary"]:hover,
+    .stButton > button[data-testid="baseButton-primary"]:hover,
+    .stButton > button[kind="primary"]:focus,
+    .stButton > button[data-testid="baseButton-primary"]:focus {
         background: var(--ink-night) !important;
-        color: var(--parchment) !important;
+        color: #FFFFFF !important;
         border: none !important;
         border-radius: 2px !important;
         padding: 0.65rem 2rem !important;
@@ -556,15 +560,16 @@ COMPASS_SVG = """
 # 页面渲染组件
 # ============================================================
 def render_hero():
-    st.markdown(f"""
+    hero_html = """
     <div class="hero">
-        {COMPASS_SVG}
-        <div class="hero-title-zh">{config.SYSTEM_TITLE_ZH}</div>
-        <div class="hero-title-en">{config.SYSTEM_TITLE_EN}</div>
+    """ + COMPASS_SVG + """
+        <div class="hero-title-zh">""" + config.SYSTEM_TITLE_ZH + """</div>
+        <div class="hero-title-en">""" + config.SYSTEM_TITLE_EN + """</div>
         <hr class="hero-rule">
-        <p class="hero-subtitle">{config.SYSTEM_SUBTITLE_ZH}</p>
+        <p class="hero-subtitle">""" + config.SYSTEM_SUBTITLE_ZH + """</p>
     </div>
-    """, unsafe_allow_html=True)
+    """
+    st.markdown(hero_html, unsafe_allow_html=True)
 
 
 def render_input_form():
@@ -660,26 +665,11 @@ def render_exhibit_card(match_result: dict, course_name: str, top_keyword: str, 
         f'<span class="tag-chip">{t}</span>' for t in ex.get("tags", [])
     )
 
-    # 图片处理：自动识别图片格式（真实照片 jpg/png 优先于 SVG 占位图）
+    # 图片处理：使用 SVG 占位图或用户提供的真实照片
     raw_path = ex.get("image_path", "")
-    base_path = (Path(ROOT) / raw_path).with_suffix("")
-    actual_src = None
-    # 优先查找真实照片格式（用户放入的 jpg/png/webp）
-    for ext in [".jpg", ".jpeg", ".png", ".webp"]:
-        alt = base_path.with_suffix(ext)
-        if alt.exists():
-            actual_src = str(alt.relative_to(ROOT)).replace("\\", "/")
-            break
-    # 如果没找到真实照片，再用原路径（可能是 SVG 占位图）
-    if not actual_src:
-        fallback = Path(ROOT) / raw_path
-        if fallback.exists():
-            actual_src = raw_path
-    # 生成 HTML
-    if actual_src:
-        image_html = f'<img src="{actual_src}" alt="{ex.get("name_zh", "")}">'
-    else:
-        image_html = '<div class="exhibit-image-placeholder">🏺</div>'
+    # Streamlit 会直接从项目根目录提供静态文件
+    # 直接使用相对路径，Streamlit Cloud 会自动处理
+    image_html = f'<img src="{raw_path}" alt="{ex.get("name_zh", "")}" style="width:100%;height:100%;object-fit:cover;">'
 
     card_html = f"""
     <div class="exhibit-card">
