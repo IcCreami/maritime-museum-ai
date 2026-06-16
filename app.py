@@ -174,10 +174,27 @@ def inject_css():
         margin: 0;
         position: relative;
     }
+    .hero-subtitle-en,
+    .hero .hero-subtitle-en,
+    .hero p.hero-subtitle-en,
+    div.hero p.hero-subtitle-en {
+        font-family: 'Cormorant Garamond', serif !important;
+        font-style: italic;
+        font-size: 0.85rem;
+        line-height: 1.6;
+        color: var(--brass-light) !important;
+        -webkit-text-fill-color: var(--brass-light) !important;
+        max-width: 640px;
+        margin: 0.6rem 0 0 0;
+        position: relative;
+        opacity: 0.85;
+    }
     .hero-subtitle *,
-    .hero .hero-subtitle * {
-        color: #F4EBD8 !important;
-        -webkit-text-fill-color: #F4EBD8 !important;
+    .hero .hero-subtitle *,
+    .hero-subtitle-en *,
+    .hero .hero-subtitle-en * {
+        color: inherit !important;
+        -webkit-text-fill-color: inherit !important;
     }
     .hero-rule {
         width: 60px;
@@ -626,6 +643,7 @@ def render_hero():
 <div class="hero-title-en">{config.SYSTEM_TITLE_EN}</div>
 <hr class="hero-rule">
 <p class="hero-subtitle">{config.SYSTEM_SUBTITLE_ZH}</p>
+<p class="hero-subtitle-en">{config.SYSTEM_SUBTITLE_EN}</p>
 </div>
 """).strip()
     st.markdown(hero_html, unsafe_allow_html=True)

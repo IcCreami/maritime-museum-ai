@@ -75,3 +75,8 @@ SYSTEM_SUBTITLE_ZH = (
     "本系统基于「一馆一物说航海——中国航海类博物馆文物精品数字展」资源，运用 AI 语义匹配技术，"
     "为航海与交通相关专业的大学生推荐与课程高度关联的展品，并生成个性化学习路径。"
 )
+SYSTEM_SUBTITLE_EN = (
+    "Leveraging AI semantic matching on the 'One Museum, One Object' digital exhibition, "
+    "this system recommends highly course-relevant exhibits for maritime and transportation students, "
+    "and generates personalized learning paths."
+)
