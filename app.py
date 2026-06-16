@@ -102,6 +102,20 @@ def inject_css():
         overflow: hidden;
         box-shadow: 0 8px 32px rgba(13, 27, 42, 0.25);
     }
+    .hero,
+    .hero *,
+    .hero p,
+    .hero div,
+    .hero span {
+        color: #F4EBD8 !important;
+        -webkit-text-fill-color: #F4EBD8 !important;
+    }
+    /* 但标题保留各自颜色 */
+    .hero .hero-title-en,
+    .hero .hero-title-en * {
+        color: var(--brass-light) !important;
+        -webkit-text-fill-color: var(--brass-light) !important;
+    }
     .hero::before {
         /* 水墨晕染效果 */
         content: "";
@@ -148,13 +162,22 @@ def inject_css():
         letter-spacing: 0.05em;
         position: relative;
     }
-    .hero-subtitle {
+    .hero-subtitle,
+    .hero .hero-subtitle,
+    .hero p.hero-subtitle,
+    div.hero p.hero-subtitle {
         font-size: 0.95rem;
         line-height: 1.7;
         color: #F4EBD8 !important;
+        -webkit-text-fill-color: #F4EBD8 !important;
         max-width: 640px;
         margin: 0;
         position: relative;
+    }
+    .hero-subtitle *,
+    .hero .hero-subtitle * {
+        color: #F4EBD8 !important;
+        -webkit-text-fill-color: #F4EBD8 !important;
     }
     .hero-rule {
         width: 60px;
