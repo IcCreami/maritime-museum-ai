@@ -151,7 +151,7 @@ def inject_css():
     .hero-subtitle {
         font-size: 0.95rem;
         line-height: 1.7;
-        color: rgba(244, 235, 216, 0.85) !important;
+        color: #F4EBD8 !important;
         max-width: 640px;
         margin: 0;
         position: relative;
