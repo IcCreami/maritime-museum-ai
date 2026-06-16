@@ -15,6 +15,8 @@ if str(ROOT) not in sys.path:
 
 import streamlit as st
 import json
+import base64
+from textwrap import dedent
 from datetime import datetime
 
 from src import config
@@ -218,12 +220,18 @@ def inject_css():
     /* ============ 主按钮 ============ */
     .stButton > button[kind="primary"],
     .stButton > button[data-testid="baseButton-primary"],
+    div[data-testid="stButton"] > button[kind="primary"],
+    div[data-testid="stButton"] > button[data-testid="baseButton-primary"],
     .stButton > button[kind="primary"]:hover,
     .stButton > button[data-testid="baseButton-primary"]:hover,
     .stButton > button[kind="primary"]:focus,
-    .stButton > button[data-testid="baseButton-primary"]:focus {
+    .stButton > button[data-testid="baseButton-primary"]:focus,
+    .stButton > button[kind="primary"]:active,
+    .stButton > button[data-testid="baseButton-primary"]:active {
         background: var(--ink-night) !important;
+        background-color: var(--ink-night) !important;
         color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
         border: none !important;
         border-radius: 2px !important;
         padding: 0.65rem 2rem !important;
@@ -234,14 +242,26 @@ def inject_css():
         position: relative;
         overflow: hidden;
     }
+    .stButton > button[kind="primary"] *,
+    .stButton > button[data-testid="baseButton-primary"] *,
+    div[data-testid="stButton"] > button[kind="primary"] *,
+    div[data-testid="stButton"] > button[data-testid="baseButton-primary"] * {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
     .stButton > button[kind="primary"]:hover,
-    .stButton > button[data-testid="baseButton-primary"]:hover {
+    .stButton > button[data-testid="baseButton-primary"]:hover,
+    div[data-testid="stButton"] > button[kind="primary"]:hover,
+    div[data-testid="stButton"] > button[data-testid="baseButton-primary"]:hover {
         background: var(--wave-teal) !important;
+        background-color: var(--wave-teal) !important;
         box-shadow: 0 4px 16px rgba(61, 107, 126, 0.3) !important;
         transform: translateY(-1px);
     }
     .stButton > button[kind="primary"]::before,
-    .stButton > button[data-testid="baseButton-primary"]::before {
+    .stButton > button[data-testid="baseButton-primary"]::before,
+    div[data-testid="stButton"] > button[kind="primary"]::before,
+    div[data-testid="stButton"] > button[data-testid="baseButton-primary"]::before {
         content: "🧭 ";
     }
 
@@ -404,7 +424,7 @@ def inject_css():
         margin-top: 0.8rem;
         padding: 0.45rem 1rem;
         background: transparent;
-        color: var(--ink-night) !important;
+        color: var(--ink-night);
         border: 1px solid var(--ink-night);
         border-radius: 2px;
         font-family: 'LXGW WenKai', serif !important;
@@ -415,7 +435,30 @@ def inject_css():
     }
     .view-original-link:hover {
         background: var(--ink-night);
-        color: var(--parchment) !important;
+        color: var(--parchment);
+    }
+    /* 填充样式 variant:用于 Footer 主 CTA */
+    .view-original-link.btn-filled {
+        background: var(--ink-night);
+        color: #FFFFFF;
+        padding: 0.6rem 2rem;
+        font-size: 0.95rem;
+        border-color: var(--ink-night);
+    }
+    .view-original-link.btn-filled,
+    .view-original-link.btn-filled:hover,
+    .view-original-link.btn-filled:focus,
+    .view-original-link.btn-filled:active,
+    .view-original-link.btn-filled:visited {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+        background: var(--ink-night) !important;
+        background-color: var(--ink-night) !important;
+    }
+    .view-original-link.btn-filled:hover {
+        background: var(--wave-teal) !important;
+        background-color: var(--wave-teal) !important;
+        border-color: var(--wave-teal) !important;
     }
     .view-original-link::after {
         content: " →";
@@ -523,52 +566,45 @@ def inject_css():
 
 
 # ============================================================
-# 指南针 SVG
+# 指南针 SVG（已去除 <text>，避免 Streamlit Cloud HTML sanitizer 剥离）
 # ============================================================
-COMPASS_SVG = """
+COMPASS_SVG = dedent("""
 <svg class="hero-compass" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <g stroke="#D4B06A" stroke-width="0.8" fill="none" opacity="0.9">
-    <circle cx="50" cy="50" r="45"/>
-    <circle cx="50" cy="50" r="38"/>
-    <circle cx="50" cy="50" r="3" fill="#D4B06A"/>
-    <!-- 主方位 -->
-    <path d="M 50 5 L 53 50 L 50 55 L 47 50 Z" fill="#D4B06A" opacity="0.8"/>
-    <path d="M 50 95 L 53 50 L 50 45 L 47 50 Z" fill="#D4B06A" opacity="0.4"/>
-    <path d="M 5 50 L 50 47 L 55 50 L 50 53 Z" fill="#D4B06A" opacity="0.4"/>
-    <path d="M 95 50 L 50 47 L 45 50 L 50 53 Z" fill="#D4B06A" opacity="0.4"/>
-    <!-- 斜方位 -->
-    <path d="M 18 18 L 48 48 L 50 50 L 47 50 Z" fill="#D4B06A" opacity="0.3"/>
-    <path d="M 82 18 L 52 48 L 50 50 L 53 50 Z" fill="#D4B06A" opacity="0.3"/>
-    <path d="M 18 82 L 48 52 L 50 50 L 47 50 Z" fill="#D4B06A" opacity="0.3"/>
-    <path d="M 82 82 L 52 52 L 50 50 L 53 50 Z" fill="#D4B06A" opacity="0.3"/>
-    <!-- 刻度 -->
-    <g stroke-width="0.5">
-      <line x1="50" y1="8" x2="50" y2="13"/>
-      <line x1="50" y1="87" x2="50" y2="92"/>
-      <line x1="8" y1="50" x2="13" y2="50"/>
-      <line x1="87" y1="50" x2="92" y2="50"/>
-    </g>
-    <!-- 北字 -->
-    <text x="50" y="22" text-anchor="middle" font-family="LXGW WenKai, serif"
-          font-size="7" fill="#D4B06A" font-weight="700">北</text>
-  </g>
+  <circle cx="50" cy="50" r="45" stroke="#D4B06A" stroke-width="0.8" fill="none" opacity="0.9"/>
+  <circle cx="50" cy="50" r="38" stroke="#D4B06A" stroke-width="0.8" fill="none" opacity="0.9"/>
+  <circle cx="50" cy="50" r="3" fill="#D4B06A"/>
+  <path d="M 50 5 L 53 50 L 50 55 L 47 50 Z" fill="#D4B06A" opacity="0.8"/>
+  <path d="M 50 95 L 53 50 L 50 45 L 47 50 Z" fill="#D4B06A" opacity="0.4"/>
+  <path d="M 5 50 L 50 47 L 55 50 L 50 53 Z" fill="#D4B06A" opacity="0.4"/>
+  <path d="M 95 50 L 50 47 L 45 50 L 50 53 Z" fill="#D4B06A" opacity="0.4"/>
+  <path d="M 18 18 L 48 48 L 50 50 L 47 50 Z" fill="#D4B06A" opacity="0.3"/>
+  <path d="M 82 18 L 52 48 L 50 50 L 53 50 Z" fill="#D4B06A" opacity="0.3"/>
+  <path d="M 18 82 L 48 52 L 50 50 L 47 50 Z" fill="#D4B06A" opacity="0.3"/>
+  <path d="M 82 82 L 52 52 L 50 50 L 53 50 Z" fill="#D4B06A" opacity="0.3"/>
+  <line x1="50" y1="8" x2="50" y2="13" stroke="#D4B06A" stroke-width="0.5"/>
+  <line x1="50" y1="87" x2="50" y2="92" stroke="#D4B06A" stroke-width="0.5"/>
+  <line x1="8" y1="50" x2="13" y2="50" stroke="#D4B06A" stroke-width="0.5"/>
+  <line x1="87" y1="50" x2="92" y2="50" stroke="#D4B06A" stroke-width="0.5"/>
 </svg>
-"""
+""").strip()
 
 
 # ============================================================
 # 页面渲染组件
 # ============================================================
 def render_hero():
-    hero_html = """
-    <div class="hero">
-    """ + COMPASS_SVG + """
-        <div class="hero-title-zh">""" + config.SYSTEM_TITLE_ZH + """</div>
-        <div class="hero-title-en">""" + config.SYSTEM_TITLE_EN + """</div>
-        <hr class="hero-rule">
-        <p class="hero-subtitle">""" + config.SYSTEM_SUBTITLE_ZH + """</p>
-    </div>
-    """
+    # 关键修复：用 dedent 去除所有前导缩进，让 HTML 顶格开始。
+    # Streamlit Cloud 的 markdown 解析器会把带缩进的 HTML 当成代码块，
+    # 直接显示原始 <div> / <svg> 等标签而不是渲染。
+    hero_html = dedent(f"""
+<div class="hero">
+{COMPASS_SVG}
+<div class="hero-title-zh">{config.SYSTEM_TITLE_ZH}</div>
+<div class="hero-title-en">{config.SYSTEM_TITLE_EN}</div>
+<hr class="hero-rule">
+<p class="hero-subtitle">{config.SYSTEM_SUBTITLE_ZH}</p>
+</div>
+""").strip()
     st.markdown(hero_html, unsafe_allow_html=True)
 
 
@@ -653,6 +689,25 @@ def render_input_form():
     }
 
 
+def _encode_image_data_uri(path_str: str) -> str:
+    """把项目内的图片转成 base64 data URI，避免 Streamlit Cloud 静态文件路径 / MIME 问题。"""
+    try:
+        p = ROOT / path_str
+        if not p.exists():
+            return ""
+        data = p.read_bytes()
+        b64 = base64.b64encode(data).decode("ascii")
+        if path_str.lower().endswith(".svg"):
+            mime = "image/svg+xml"
+        elif path_str.lower().endswith(".png"):
+            mime = "image/png"
+        else:
+            mime = "image/jpeg"
+        return f"data:{mime};base64,{b64}"
+    except Exception:
+        return ""
+
+
 def render_exhibit_card(match_result: dict, course_name: str, top_keyword: str, index: int):
     """渲染单件展品卡片。"""
     from src.matching_engine import MatchingEngine
@@ -665,11 +720,17 @@ def render_exhibit_card(match_result: dict, course_name: str, top_keyword: str, 
         f'<span class="tag-chip">{t}</span>' for t in ex.get("tags", [])
     )
 
-    # 图片处理：使用 SVG 占位图或用户提供的真实照片
+    # 图片处理：编码为 base64 data URI，确保在 Streamlit Cloud 也能正常加载
     raw_path = ex.get("image_path", "")
-    # Streamlit 会直接从项目根目录提供静态文件
-    # 直接使用相对路径，Streamlit Cloud 会自动处理
-    image_html = f'<img src="{raw_path}" alt="{ex.get("name_zh", "")}" style="width:100%;height:100%;object-fit:cover;">'
+    data_uri = _encode_image_data_uri(raw_path)
+    if data_uri:
+        image_html = (
+            f'<img src="{data_uri}" alt="{ex.get("name_zh", "")}" '
+            f'style="width:100%;height:100%;object-fit:cover;">'
+        )
+    else:
+        # 兜底占位
+        image_html = '<div class="exhibit-image-placeholder">❖</div>'
 
     card_html = f"""
     <div class="exhibit-card">
@@ -735,8 +796,8 @@ def render_footer():
         <div style="font-size: 0.82rem; color: var(--ink-mute); margin-bottom: 1rem;">
             所有推荐展品均来源于该数字展览，点击访问完整展览内容
         </div>
-        <a class="view-original-link" href="{config.EXHIBITION_URL}" target="_blank" rel="noopener"
-           style="display: inline-block; padding: 0.6rem 2rem; background: var(--ink-night); color: #FFFFFF !important; font-size: 0.95rem; text-decoration: none; border-radius: 2px;">
+        <a class="view-original-link btn-filled"
+           href="{config.EXHIBITION_URL}" target="_blank" rel="noopener">
             🏛 访问完整数字展览
         </a>
     </div>
