@@ -1,0 +1,27 @@
+# 敏感文件
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# 数据缓存（保留原始数据，忽略缓存）
+data/sessions.json

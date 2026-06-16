@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "web-scraping": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "web-scraping/SKILL.md",
+      "computedHash": "01ffcaaf7f9ec8c4fdf0b26fdab5d5db5d39c0ee6727f693ce09c10a991a0bf0"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+You are an educational expert in maritime and transportation studies. Based on the following information, generate a personalized learning path recommendation for the student.
+
+[Student Information]
+- Major: {major_en}
+- Current Course: {course_name_en}
+- Keywords of Interest: {keywords_en}
+- Additional Context: {additional_context}
+
+[System-Recommended Exhibits (MUST serve as core content)]
+1. Exhibit: {exhibit_1_name_en}
+   Museum: {exhibit_1_museum_en}
+   Description: {exhibit_1_description_en}
+   Match Score: {score_1}%
+
+2. Exhibit: {exhibit_2_name_en}
+   Museum: {exhibit_2_museum_en}
+   Description: {exhibit_2_description_en}
+   Match Score: {score_2}%
+
+3. Exhibit: {exhibit_3_name_en}
+   Museum: {exhibit_3_museum_en}
+   Description: {exhibit_3_description_en}
+   Match Score: {score_3}%
+
+[Output Requirements]
+Generate the following content, approximately 300-500 words:
+
+I. Recommended Exhibit Interpretations
+Write a concise interpretation (60-100 words each) for each of the 3 system-recommended exhibits, including:
+- Historical background and cultural significance
+- Technical principles or professional knowledge demonstrated
+- The exhibit's position in maritime/transportation history
+★ MUST be based on the system-provided exhibit information. Do NOT replace or fabricate recommended exhibit names.
+
+II. Course Relevance Analysis
+Analyze how these 3 recommended exhibits relate to the course "{course_name_en}":
+- Which exhibit content corresponds to which course topics
+- The advantage of understanding theoretical concepts through physical exhibits
+
+III. Extended Learning Suggestions
+Beyond the core content, you may supplement with 1-2 extended learning directions, such as:
+- Other representative exhibits, literature, or museum resources related to the topic
+- Learning materials the student should independently search for (books, papers, online exhibitions, etc.)
+- Further maritime/transportation cultural themes to explore
+★ Extended content must be clearly labeled as "Extended Reading" or "Self-Exploration" so the student understands these are extracurricular resources not included in the system recommendations and need to be searched independently.
+
+[Additional Requirements]
+- Use accurate maritime/transportation terminology
+- Naturally integrate content about Chinese maritime cultural heritage (e.g., Maritime Silk Road, Zheng He's voyages) where appropriate
+- Language should be suitable for university students, balancing academic rigor and readability
+- Strictly distinguish between "system-recommended exhibits" and "extended learning resources" to avoid confusion
